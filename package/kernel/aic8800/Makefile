@@ -73,14 +73,9 @@ define KernelPackage/aic8800-usb
   DEPENDS+= +aic8800-usb-firmware +kmod-usb-core
   FILES:= \
 	$(PKG_BUILD_DIR)/src/USB/driver_fw/drivers/aic8800/aic_load_fw/aic_load_fw.ko \
-	$(PKG_BUILD_DIR)/src/USB/driver_fw/drivers/aic8800/aic8800_fdrv/aic8800DC_fdrv.ko \
-	$(PKG_BUILD_DIR)/src/USB/driver_fw/drivers/aic8800/aic8800_fdrv/aic8800D80_fdrv.ko \
-	$(PKG_BUILD_DIR)/src/USB/driver_fw/drivers/aic8800/aic8800_fdrv/aic8800D80N_fdrv.ko \
-	$(PKG_BUILD_DIR)/src/USB/driver_fw/drivers/aic8800/aic8800_fdrv/aic8800D80X2_fdrv.ko \
-	$(PKG_BUILD_DIR)/src/USB/driver_fw/drivers/aic8800/aic8800_fdrv/aic8800DLN_fdrv.ko
-  AUTOLOAD:=$(call AutoProbe,aic_load_fw aic8800DC_fdrv aic8800D80_fdrv aic8800D80N_fdrv aic8800D80X2_fdrv aic8800DLN_fdrv)
+	$(PKG_BUILD_DIR)/src/USB/driver_fw/drivers/aic8800/aic8800_fdrv/aic8800DC_fdrv.ko
+  AUTOLOAD:=$(call AutoProbe,aic_load_fw aic8800DC_fdrv)
 endef
-
 
 NOSTDINC_FLAGS:= \
 	$(KERNEL_NOSTDINC_FLAGS) \
@@ -93,7 +88,6 @@ NOSTDINC_FLAGS:= \
 	-include backport/autoconf.h \
 	-include backport/backport.h \
 	-DBUILD_OPENWRT
-EXTRA_CFLAGS:= -DBUILD_OPENWRT
 
 define Build/Compile
 
@@ -124,7 +118,6 @@ ifneq ($(CONFIG_PACKAGE_kmod-aic8800-usb),)
 	+$(KERNEL_MAKE) $(PKG_JOBS) \
 		M="$(PKG_BUILD_DIR)/src/USB/driver_fw/drivers/aic8800" \
 		NOSTDINC_FLAGS="$(NOSTDINC_FLAGS)" \
-		EXTRA_CFLAGS="$(EXTRA_CFLAGS) -DCONFIG_USB_BT" \
 		CONFIG_AIC_FW_PATH="/lib/firmware/aic8800/usb" \
 		modules
 endif
@@ -146,19 +139,12 @@ define Package/aic8800-sdio-firmware/install
 		$(PKG_BUILD_DIR)/src/SDIO/driver_fw/fw/aic8800D80/* \
 		$(1)/lib/firmware/aic8800/sdio/
 	$(CP) \
-		$(PKG_BUILD_DIR)/src/SDIO/driver_fw/fw/aic8800D80N/* \
-		$(1)/lib/firmware/aic8800/sdio/
-	$(CP) \
 		$(PKG_BUILD_DIR)/src/SDIO/driver_fw/fw/aic8800D80X2/* \
 		$(1)/lib/firmware/aic8800/sdio/
 	$(CP) \
 		$(PKG_BUILD_DIR)/src/SDIO/driver_fw/fw/aic8800DC/* \
 		$(1)/lib/firmware/aic8800/sdio/
-	$(CP) \
-		$(PKG_BUILD_DIR)/src/SDIO/driver_fw/fw/aic8800DLN/* \
-		$(1)/lib/firmware/aic8800/sdio/
 endef
-
 
 define Package/aic8800-usb-firmware/install
 	$(INSTALL_DIR) $(1)/lib/firmware/aic8800/usb
@@ -166,22 +152,15 @@ define Package/aic8800-usb-firmware/install
 		$(PKG_BUILD_DIR)/src/USB/driver_fw/fw/aic8800/* \
 		$(1)/lib/firmware/aic8800/usb/
 	$(CP) \
-		$(PKG_BUILD_DIR)/src/USB/driver_fw/fw/aic8800DC/* \
-		$(1)/lib/firmware/aic8800/usb/
-	$(CP) \
 		$(PKG_BUILD_DIR)/src/USB/driver_fw/fw/aic8800D80/* \
-		$(1)/lib/firmware/aic8800/usb/
-	$(CP) \
-		$(PKG_BUILD_DIR)/src/USB/driver_fw/fw/aic8800D80N/* \
 		$(1)/lib/firmware/aic8800/usb/
 	$(CP) \
 		$(PKG_BUILD_DIR)/src/USB/driver_fw/fw/aic8800D80X2/* \
 		$(1)/lib/firmware/aic8800/usb/
 	$(CP) \
-		$(PKG_BUILD_DIR)/src/USB/driver_fw/fw/aic8800DLN/* \
+		$(PKG_BUILD_DIR)/src/USB/driver_fw/fw/aic8800DC/* \
 		$(1)/lib/firmware/aic8800/usb/
 endef
-
 
 $(eval $(call BuildPackage,aic8800-pcie-firmware))
 $(eval $(call BuildPackage,aic8800-sdio-firmware))
