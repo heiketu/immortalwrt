@@ -87,7 +87,7 @@ define Device/gemtek_w1700k-ubi
   DEVICE_PACKAGES := airoha-en7581-mt7996-npu-firmware \
 		    fitblk kmod-i2c-an7581 kmod-hwmon-nct7802 \
 		    kmod-mt7996-firmware kmod-phy-rtl8261n \
-		    wpad-basic-mbedtls
+		    wpad-openssl
   UBINIZE_OPTS := -E 5
   BLOCKSIZE := 128k
   PAGESIZE := 2048
@@ -105,23 +105,16 @@ define Device/gemtek_w1700k-ubi
 endef
 TARGET_DEVICES += gemtek_w1700k-ubi
 
-define Device/bell_xg-040g-md
-  $(call Device/FitImageLzma)
-  DEVICE_VENDOR := Nokia Bell
-  DEVICE_MODEL := Nokia Bell XG-040G-MD
-  SOC := an7581
-  DEVICE_DTS_CONFIG := config@1
-  KERNEL_LOADADDR := 0x80088000
-  BLOCKSIZE := 128k
-  PAGESIZE := 2048
-  KERNEL_SIZE := 8192k
-  IMAGE_SIZE := 261120k
-  KERNEL_IN_UBI := 1
-  UBINIZE_OPTS := -s 2048
-  DEVICE_PACKAGES := kmod-phy-airoha-en8811h kmod-usb3 kmod-usb-xhci-mtk kmod-i2c-an7581 kmod-input-gpio-keys-polled
-  IMAGES += factory.bin sysupgrade.bin
-  IMAGE/factory.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi
-  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+define Device/nokia_valyrian
+  DEVICE_VENDOR := Nokia
+  DEVICE_MODEL := Valyrian
+  DEVICE_DTS := an7581-nokia-valyrian
+  DEVICE_PACKAGES := kmod-spi-gpio kmod-gpio-nxp-74hc164 kmod-leds-gpio \
+    kmod-i2c-an7581 kmod-i2c-gpio kmod-iio-richtek-rtq6056 \
+    kmod-sfp kmod-phy-aeonsemi-as21xxx \
+    kmod-mt7996-firmware
+  ARTIFACT/preloader.bin := an7581-preloader nokia_valyrian
+  ARTIFACT/bl31-uboot.fip := an7581-bl31-uboot nokia_valyrian
+  ARTIFACTS := preloader.bin bl31-uboot.fip
 endef
-TARGET_DEVICES += bell_xg-040g-md
-
+TARGET_DEVICES += nokia_valyrian
