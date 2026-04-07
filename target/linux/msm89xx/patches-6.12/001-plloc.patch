@@ -1,6 +1,6 @@
 --- a/drivers/clk/qcom/a53-pll.c
 +++ b/drivers/clk/qcom/a53-pll.c
-@@ -20,8 +20,8 @@
+@@ -20,10 +20,10 @@
  static const struct pll_freq_tbl a53pll_freq[] = {
 -{ 998400000, 52, 0x0, 0x1, 0 },
 -{ 1094400000, 57, 0x0, 0x1, 0 },
