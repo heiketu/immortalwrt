@@ -1,7 +1,7 @@
 Index: drivers/clk/qcom/a53-pll.c
 ===================================================================
---- drivers/clk/qcom/a53-pll.c
-+++ drivers/clk/qcom/a53-pll.c
+--- a/drivers/clk/qcom/a53-pll.c
++++ b/drivers/clk/qcom/a53-pll.c
 @@ -17,15 +17,15 @@
  #include "clk-pll.h"
  #include "clk-regmap.h"
