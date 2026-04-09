@@ -248,19 +248,15 @@
 
 		opp-1516800000 {
 			opp-hz = /bits/ 64 <1516800000>;
-			qcom,rpm-opp-level = <5>; 
 		};
 		opp-1612800000 {
 			opp-hz = /bits/ 64 <1612800000>;
-			qcom,rpm-opp-level = <5>; 
 		};
 		opp-1728000000 {
 			opp-hz = /bits/ 64 <1728000000>;
-			qcom,rpm-opp-level = <6>; 
 		};
 		opp-1843200000 {
 			opp-hz = /bits/ 64 <1843200000>;
-			qcom,rpm-opp-level = <6>;
 		};
 	};
 
